@@ -19,16 +19,17 @@ This script uses [Meta Developer APIs](https://developers.facebook.com) to send 
 
 Let's start! I'm assuming you already set your instagram account to professional, and connected your Facebook Page to your instagram account.
 
-    1. Open your Meta Developer Account and create a new app. Make sure the app type is "None".
-    2. Go to Tools -> Graph API Explorer. Add following permissions:
-        - instagram_basic
-        - instagram_manage_messages
-        - pages_manage_metadata
-    3. Go ahead and click "Generate Access Token". Don't worry if you get the below error message.
-    4. Copy your Access Code. Now open setup/defines.py and paste your access code in `creds["access_token"]`.
-    5. Go to the dashboard in Meta and click Settings->Basic. Copy "App ID" and "App Secret" and paste it to `creds["app_id"]` and `creds["app_secret"]`.
-    6. Now we are going to add the recipient's Instagram account as "Instagram Tester" to our app. First we need to go to Settings->Basic and at the very bottom we need to add a new platform. You can select "Website" as the platform. If you have a website you can paste the URL of your website here. If you don't you can just paste your github profile URL.
-    7. Now go to the dashboard and click "Set up" on Instagram Basic Display.
-    ![Set up Instagram Basic Display](https://scontent-sea1-1.xx.fbcdn.net/v/t39.2365-6/116839963_305560353979471_93042950445637590_n.png?_nc_cat=100&ccb=1-7&_nc_sid=ad8a9d&_nc_ohc=IC2XE3yB7LMAX97bfs0&_nc_ht=scontent-sea1-1.xx&oh=00_AfC8rUzSrv-IhhUNYwWC9qLYVsqhyXWHhOAW6DWw0PBfnQ&oe=63C170A7)
-    8. 
+1. Open your Meta Developer Account and create a new app. Make sure the app type is "None".
+2. Go to Tools -> Graph API Explorer. Add following permissions:
+    1. instagram_basic
+    2. instagram_manage_messages
+    3. pages_manage_metadata
+3. Go ahead and click "Generate Access Token". Don't worry if you get the below error message.
+4. Copy your Access Code. Now open setup/defines.py and paste your access code in `creds["access_token"]`.
+5. Go to the dashboard in Meta and click Settings->Basic. Copy "App ID" and "App Secret" and paste it to `creds["app_id"]` and `creds["app_secret"]`.
+6. Now we are going to add the recipient's Instagram account as "Instagram Tester" to our app. First we need to go to Settings->Basic and at the very bottom we need to add a new platform. You can select "Website" as the platform. If you have a website you can paste the URL of your website here. If you don't you can just paste your github profile URL.
+7. Now go to the dashboard and click "Set up" on Instagram Basic Display.
+![Set up Instagram Basic Display](https://scontent-sea1-1.xx.fbcdn.net/v/t39.2365-6/116839963_305560353979471_93042950445637590_n.png?_nc_cat=100&ccb=1-7&_nc_sid=ad8a9d&_nc_ohc=IC2XE3yB7LMAX97bfs0&_nc_ht=scontent-sea1-1.xx&oh=00_AfC8rUzSrv-IhhUNYwWC9qLYVsqhyXWHhOAW6DWw0PBfnQ&oe=63C170A7)
+8. 
+
 ## References
