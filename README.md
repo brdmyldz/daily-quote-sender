@@ -8,12 +8,13 @@ This script uses [Meta Developer APIs](https://developers.facebook.com) to send 
 
 - [Requirements](#requirements)
 - [Setup](#setup)
-- [References](#references)
 - [Future Improvement Ideas](#future-improvement-ideas)
+- [References](#references)
+
 
 ## Requirements
 * ___Recipient's Permission:___ Well obviously go and ask the recipient if they are okay with receiving random quotes everyday. This is not only needed for ethical reasons but also needed because you will add their account as "Instagram Tester" to your app. Then, when it's neceessary, they will need to message your account.
-* __Instagram Professional Account:__ It sounds pretty serious and scary but don't worry it is free and to be honest it really doesn't have any difference on how your profile looks like from outside. You can either create a Business account or Creater account (if you have <500k followers).
+* __Instagram Professional Account:__ It sounds pretty serious and scary but don't worry it is free and to be honest it really doesn't have any differences on how your profile looks like from outside. You can either create a Business account or Creater account (if you have <500k followers).
 * __Facebook Page:__ You should create a page on Facebook if you don't have one already. It doesn't need to have anything on it but you have to connect your Facebook Page to your Professional Instagram Account.
 * __AWS Account:__ Free Tier Account is more than enough for the purpose of this project.
 ## Setup
@@ -35,7 +36,8 @@ Let's start! I'm assuming you already set your instagram account to professional
 10. Note that our access token expires in hours so we need to generate our "Long-Lived Access Token". To do that, run get_long_lives_access_token.py. Copy the long-lived access token from commend line and replace your old access code with the new one(`creds["access_token"]`) in defines.py. This new access code will expire in 90 days.
 11. Run get_page_id.py. Copy and paste your Page ID to `creds["page_id"]` in defines.py.
 12. Run get_page_access_token.py. Copy and paste your Page Access Token to `creds["page_access_token"]` in defines.py.
-13. The only thing left is `creds["recipient_instagram_account_id"]` but this is the hard part.
+13. The only thing left is `creds["recipient_instagram_account_id"]` but this is the hard part. To be able to use the messaging API that Instagram provided, recipient needs to send us a message. Then we will catch her message notification via Webhook. This way we can find recipient's sender ID.This ID is specific for the recipient and your Instagram account. More information can be found [here](https://developers.facebook.com/docs/messenger-platform/overview) (unde the Instagram-Scoped IDs Section).
+14. Go to AWS Lambda and create a new function named api_handler_meta_dev. You can pick the Python's latest version available as a runtime.
 ## Future Improvement Ideas
 
 * get_long_lived_access_token.py, get_page_Acess_token.py, get_page_id.py can be put in one file to make setup process simplier.
