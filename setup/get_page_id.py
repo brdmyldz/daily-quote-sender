@@ -1,6 +1,6 @@
 from defines import get_credentials, make_api_call
 
-def get_user_pages(params):
+def get_page_id(params):
     endpointParams = dict()
     endpointParams["access_token"] = params["access_token"]
 
@@ -10,7 +10,7 @@ def get_user_pages(params):
 
 params = get_credentials()
 params["debug"] = "no"
-response = get_user_pages(params)
+response = get_page_id(params)
 
 print("Page Name: " + response["json_data"]["data"][0]["name"])
 print("Page ID: " + response["json_data"]["data"][0]["id"])
