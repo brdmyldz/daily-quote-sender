@@ -17,11 +17,12 @@ This script uses [Meta Developer APIs](https://developers.facebook.com) to send 
 * __Instagram Professional Account:__ It sounds pretty serious and scary but don't worry it is free and to be honest it really doesn't have any differences on how your profile looks like from outside. You can either create a Business account or Creater account (if you have <500k followers).
 * __Facebook Page:__ You should create a page on Facebook if you don't have one already. It doesn't need to have anything on it but you have to connect your Facebook Page to your Professional Instagram Account.
 * __AWS Account:__ Free Tier Account is more than enough for the purpose of this project.
+
 ## Setup
 
-Let's start! I'm assuming you already set your instagram account to professional, and connected your Facebook Page to your instagram account.
+Let's start! I'm assuming you already set your instagram account to professional, connected your Facebook Page to your instagram account, and cloned the repo in to your local device.
 
-1. Open your Meta Developer Account and create a new app. Make sure the app type is "None". ![Select type](https://github.com/brdmyldz/daily-quote-sender/blob/main/images/select-type.png?raw=true)
+1. Open your Meta Developer Account and create a new app. Make sure the app type is "None". ![select-type](https://github.com/brdmyldz/daily-quote-sender/blob/main/images/select-type.png?raw=true)
 2. We are going to add the recipient's Instagram account as "Instagram Tester" to our app. First we need to go to Settings->Basic and add a new platform(at the very bottom). You can select "Website" as the platform. If you have a website you can paste the URL of your website here. If you don't you can just paste your github profile URL.
 3. Go to the dashboard and click "Set up" on "Instagram Basic Display". ![Set up Instagram Basic Display](https://scontent-sea1-1.xx.fbcdn.net/v/t39.2365-6/116839963_305560353979471_93042950445637590_n.png?_nc_cat=100&ccb=1-7&_nc_sid=ad8a9d&_nc_ohc=IC2XE3yB7LMAX97bfs0&_nc_ht=scontent-sea1-1.xx&oh=00_AfC8rUzSrv-IhhUNYwWC9qLYVsqhyXWHhOAW6DWw0PBfnQ&oe=63C170A7)
 4. Go to Instagram Basic Display-> Basic Display and then click "Create New App".
@@ -30,14 +31,24 @@ Let's start! I'm assuming you already set your instagram account to professional
     1. instagram_basic
     2. instagram_manage_messages
     3. pages_manage_metadata
-7. Go ahead and click "Generate Access Token". Don't worry if you get the below error message. ![Log-in error](https://github.com/brdmyldz/daily-quote-sender/blob/main/images/log-in-error.png?raw=true)
+7. Go ahead and click "Generate Access Token". Don't worry if you get the below error message. ![login-error](https://github.com/brdmyldz/daily-quote-sender/blob/main/images/log-in-error.png?raw=true)
 8. Copy your Access Code. Now open setup/defines.py and paste your access code in `creds["access_token"]`.
 9. Go to the dashboard in Meta and click Settings->Basic. Copy "App ID" and "App Secret" and paste it to `creds["app_id"]` and `creds["app_secret"]`.
 10. Note that our access token expires in hours so we need to generate our "Long-Lived Access Token". To do that, run get_long_lives_access_token.py. Copy the long-lived access token from commend line and replace your old access code with the new one(`creds["access_token"]`) in defines.py. This new access code will expire in 90 days.
 11. Run get_page_id.py. Copy and paste your Page ID to `creds["page_id"]` in defines.py.
 12. Run get_page_access_token.py. Copy and paste your Page Access Token to `creds["page_access_token"]` in defines.py.
-13. The only thing left is `creds["recipient_instagram_account_id"]` but this is the hard part. To be able to use the messaging API that Instagram provided, recipient needs to send us a message. Then we will catch her message notification via Webhook. This way we can find recipient's sender ID.This ID is specific for the recipient and your Instagram account. More information can be found [here](https://developers.facebook.com/docs/messenger-platform/overview) (unde the Instagram-Scoped IDs Section).
-14. Go to AWS Lambda and create a new function named api_handler_meta_dev. You can pick the Python's latest version available as a runtime.
+13. The only thing left is `creds["recipient_instagram_account_id"]` but this is the hard part. To be able to use the messaging API that Instagram provided, recipient needs to send us a message. Then we will catch their message notification via Webhook. This way we can find recipient's sender ID. This ID is specific for the recipient and your Instagram account. More information can be found [here](https://developers.facebook.com/docs/messenger-platform/overview) (under the Instagram-Scoped IDs Section).
+14. Go to AWS Lambda and create a new function named api_handler_meta_dev. You can pick the Python's latest version available as a runtime and x86_64 as your Architecture.![create-lambda](https://github.com/brdmyldz/daily-quote-sender/blob/main/images/create-lambda.png?raw=true)
+15. Now copy all the code from aws_lambda/verify_token_meta_dev.py. Paste into AWS Lambda and then click "Deploy". After that, click Add trigger and pick "API Gateway" from the drop down list. Choose "Create a new API" and "REST API". Security is up to you but I picked "Open".![add-trigger](https://github.com/brdmyldz/daily-quote-sender/blob/main/images/add-trigger.png?raw=true)
+16. Make sure you save your API endpoint to somehwere as we are going to use this endpoint in next steps.![get-endpoint](https://github.com/brdmyldz/daily-quote-sender/blob/main/images/create-lambda.png?raw=true)
+17. Let's go back to Meta Dashboard and add "Webhooks" product to our app. Go to Webhooks settings, select "Instagram" from drop down menu and click "Subscribe to this object". Now paste your AWS API endpoint to here and write "12345" to the "Verify token" input.![verify-webhook](https://github.com/brdmyldz/daily-quote-sender/blob/main/images/verify-webhook.png?raw=true)
+18. Now that we verify our endpoint go back to our AWS Lambda function. Copy everything from aws_lambda/api_handler_meta_dev.py and paste it there and click "Deploy". Now we are ready to receive requests from Meta.![paste-code](https://github.com/brdmyldz/daily-quote-sender/blob/main/images/paste-code.png?raw=true)
+19. Go back to Webhooks settings and subscribe "messages". Now I want you to go back to Meta Dashboard and add "Messenger" product to your app. Go to Messenger->Instagram Settings. Under the Webhooks section click "Subscribe".![subscribe-webhook](https://github.com/brdmyldz/daily-quote-sender/blob/main/images/subscribe-webhook.png?raw=true)
+20. Now we can go ahead and let the recipient know that they should send us a message. 
+20. After you receive the message on Instagram, go to AWS Lambda screen and click Monitor->View CloudWatch logs.![open-cloudwatch](https://github.com/brdmyldz/daily-quote-sender/blob/main/images/open-cloudwatch.png?raw=true)
+21. Here you can see the logs of your API handler. I want you to open the most recent Log stream. ![recent-log](https://github.com/brdmyldz/daily-quote-sender/blob/main/images/recent-log.png?raw=true)
+22. In the messages section section you will see the Instagram ID of sender that is unique between your account and the recipient's account. Copy it! ![log-info](https://github.com/brdmyldz/daily-quote-sender/blob/main/images/log-info.png?raw=true)
+23. We now have every data we need to call Instagram Message API. Go to setup/defines.py and paste sender's id to `creds["recipient_instagram_account_id"]`. After that if you run setup/send_instagram_message.py, it should send the message "Hello World!" to the recipient.
 ## Future Improvement Ideas
 
 * get_long_lived_access_token.py, get_page_Acess_token.py, get_page_id.py can be put in one file to make setup process simplier.
