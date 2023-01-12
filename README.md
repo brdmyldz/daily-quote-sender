@@ -1,9 +1,98 @@
+readme.so logo
+
+light
+Download
+SectionsReset
+
+Delete
+Click on a section below to edit the contents
+
+
+
+
+
+
+Click on a section below to add it to your readme
+
+Custom Section
+
+Acknowledgements
+
+API Reference
+
+Appendix
+
+Authors
+
+Badges
+
+Color Reference
+
+Contributing
+
+Demo
+
+Deployment
+
+Documentation
+
+Environment Variables
+
+FAQ
+
+Features
+
+Feedback
+
+Github Profile - About Me
+
+Github Profile - Introduction
+
+Github Profile - Links
+
+Github Profile - Other
+
+Github Profile - Skills
+
+Installation
+
+Lessons
+
+License
+
+Logo
+
+Optimizations
+
+Related
+
+Roadmap
+
+Run Locally
+
+Screenshots
+
+Support
+
+Tech
+
+Running Tests
+
+Usage/Examples
+
+Used By
+Editor
+33. When you come to "Select Target" page, select AWS Lambda and find your fucnction name and select it. You can set other settings if you would like.
+34. Lastly, go to your Webhooks settings on Meta Dashboard and unsubscribe from "messages" as we don't want Meta to send our endpoint anymore requests.
+35. We are done! Happy coding :)
+api_handler
+2 of 2
+Preview
+Raw
 
 # Send Daily Quotes over Instagram Messages
 
-This script uses [Meta Developer APIs](https://developers.facebook.com) to send daily quotes from user's Instagram account to receipient's Instagram account. The quotes are generated through [Quotable APIs](https://github.com/lukePeavey/quotable). The script is invoked daily using [AWS Lambda](https://aws.amazon.com/lambda) and [AWS CloudWatch](https://aws.amazon.com/cloudwatch). Lastly, [AWS API Gateway](https://aws.amazon.com/api-gateway) used during setup.
-
-
+This script uses [Meta Developer APIs](https://developers.facebook.com) to send daily quotes from user's Instagram account to receipient's Instagram account. The quotes are generated through [Quotable APIs](https://github.com/lukePeavey/quotable). The script is invoked daily using [AWS Lambda](https://aws.amazon.com/lambda), [AWS CloudWatch](https://aws.amazon.com/cloudwatch) and [AWS EventBridge](https://aws.amazon.com/eventbridge). Lastly, [AWS API Gateway](https://aws.amazon.com/api-gateway) used during setup.
 ## Shortcuts
 
 - [Requirements](#requirements)
@@ -17,7 +106,6 @@ This script uses [Meta Developer APIs](https://developers.facebook.com) to send 
 * __Instagram Professional Account:__ It sounds pretty serious and scary but don't worry it is free and to be honest it really doesn't have any differences on how your profile looks like from outside. You can either create a Business account or Creater account (if you have <500k followers).
 * __Facebook Page:__ You should create a page on Facebook if you don't have one already. It doesn't need to have anything on it but you have to connect your Facebook Page to your Professional Instagram Account.
 * __AWS Account:__ Free Tier Account is more than enough for the purpose of this project.
-
 ## Setup
 
 Let's start! I'm assuming you already set your instagram account to professional, connected your Facebook Page to your instagram account, and cloned the repo in to your local device.
@@ -39,17 +127,35 @@ Let's start! I'm assuming you already set your instagram account to professional
 12. Run get_page_access_token.py. Copy and paste your Page Access Token to `creds["page_access_token"]` in defines.py.
 13. The only thing left is `creds["recipient_instagram_account_id"]` but this is the hard part. To be able to use the messaging API that Instagram provided, recipient needs to send us a message. Then we will catch their message notification via Webhook. This way we can find recipient's sender ID. This ID is specific for the recipient and your Instagram account. More information can be found [here](https://developers.facebook.com/docs/messenger-platform/overview) (under the Instagram-Scoped IDs Section).
 14. Go to AWS Lambda and create a new function named api_handler_meta_dev. You can pick the Python's latest version available as a runtime and x86_64 as your Architecture.![create-lambda](https://github.com/brdmyldz/daily-quote-sender/blob/main/images/create-lambda.png?raw=true)
-15. Now copy all the code from aws_lambda/verify_token_meta_dev.py. Paste into AWS Lambda and then click "Deploy". After that, click Add trigger and pick "API Gateway" from the drop down list. Choose "Create a new API" and "REST API". Security is up to you but I picked "Open".![add-trigger](https://github.com/brdmyldz/daily-quote-sender/blob/main/images/add-trigger.png?raw=true)
+15. Now copy all the code from aws_lambda/verify_token_meta_dev/lambda_function.py. Paste into AWS Lambda and then click "Deploy". After that, click Add trigger and pick "API Gateway" from the drop down list. Choose "Create a new API" and "REST API". Security is up to you but I picked "Open".![add-trigger](https://github.com/brdmyldz/daily-quote-sender/blob/main/images/add-trigger.png?raw=true)
 16. Make sure you save your API endpoint to somehwere as we are going to use this endpoint in next steps.![get-endpoint](https://github.com/brdmyldz/daily-quote-sender/blob/main/images/create-lambda.png?raw=true)
 17. Let's go back to Meta Dashboard and add "Webhooks" product to our app. Go to Webhooks settings, select "Instagram" from drop down menu and click "Subscribe to this object". Now paste your AWS API endpoint to here and write "12345" to the "Verify token" input.![verify-webhook](https://github.com/brdmyldz/daily-quote-sender/blob/main/images/verify-webhook.png?raw=true)
-18. Now that we verify our endpoint go back to our AWS Lambda function. Copy everything from aws_lambda/api_handler_meta_dev.py and paste it there and click "Deploy". Now we are ready to receive requests from Meta.![paste-code](https://github.com/brdmyldz/daily-quote-sender/blob/main/images/paste-code.png?raw=true)
+18. Now that we verify our endpoint go back to our AWS Lambda function. Copy everything from aws_lambda/api_handler_meta_dev/lambda_function.py and paste it there and click "Deploy". Now we are ready to receive requests from Meta.![paste-code](https://github.com/brdmyldz/daily-quote-sender/blob/main/images/paste-code.png?raw=true)
 19. Go back to Webhooks settings and subscribe "messages". Now I want you to go back to Meta Dashboard and add "Messenger" product to your app. Go to Messenger->Instagram Settings. Under the Webhooks section click "Subscribe".![subscribe-webhook](https://github.com/brdmyldz/daily-quote-sender/blob/main/images/subscribe-webhook.png?raw=true)
 20. Now we can go ahead and let the recipient know that they should send us a message. 
-20. After you receive the message on Instagram, go to AWS Lambda screen and click Monitor->View CloudWatch logs.![open-cloudwatch](https://github.com/brdmyldz/daily-quote-sender/blob/main/images/open-cloudwatch.png?raw=true)
-21. Here you can see the logs of your API handler. I want you to open the most recent Log stream. ![recent-log](https://github.com/brdmyldz/daily-quote-sender/blob/main/images/recent-log.png?raw=true)
-22. In the messages section section you will see the Instagram ID of sender that is unique between your account and the recipient's account. Copy it! ![log-info](https://github.com/brdmyldz/daily-quote-sender/blob/main/images/log-info.png?raw=true)
-23. We now have every data we need to call Instagram Message API. Go to setup/defines.py and paste sender's id to `creds["recipient_instagram_account_id"]`. After that if you run setup/send_instagram_message.py, it should send the message "Hello World!" to the recipient.
+21. After you receive the message on Instagram, go to AWS Lambda screen and click Monitor->View CloudWatch logs.![open-cloudwatch](https://github.com/brdmyldz/daily-quote-sender/blob/main/images/open-cloudwatch.png?raw=true)
+22. Here you can see the logs of your API handler. I want you to open the most recent Log stream. ![recent-log](https://github.com/brdmyldz/daily-quote-sender/blob/main/images/recent-log.png?raw=true)
+23. In the messages section section you will see the Instagram ID of sender that is unique between your account and the recipient's account. Copy it! ![log-info](https://github.com/brdmyldz/daily-quote-sender/blob/main/images/log-info.png?raw=true)
+24. We now have every data we need to call Instagram Message API. Go to setup/defines.py and paste sender's id to `creds["recipient_instagram_account_id"]`. After that if you run setup/send_instagram_message.py, it should send the message "Hello World!" to the recipient.
+25. Go to AWS Lambda and create a new function called daily_quote_sender. Copy everything from aws_lambda/daily_quote_sender/lambda_function.py and paste into AWS Lambda. Now copy your Page ID, Page Access Token, Sender Instagram ID from setup/defines.py and paste it into `params["page_id"]`, `params["page_access_token"]`, `params["recipient_instagram_account_id"]` in order in your Lambda function.
+26. We want to create a new file in our AWS Function and call it "pull_quote.py". After that copy everything from aws_lambda/daily_quote_sender/pull_quote.py to AWS Lambda. ![pull-quote](https://github.com/brdmyldz/daily-quote-sender/blob/main/images/pull-quote.png?raw=true)
+27. AWS Lambda doesn't have every library already installed in it. Thus, we need to import requests library manually. To do that click on "Layers" on the left side menu. ![layer-button](https://github.com/brdmyldz/daily-quote-sender/blob/main/images/layer-button.png?raw=true)
+28. Click "Create Layer". Give the name "request-library" to your layer. Upload layer.zip file located in aws_lambda/daily_quote_sender. Pick the same Python version and x86_64 architecture.
+29. Come back to your AWS Lambda function and on the very bottom you will see the "Layers" section. From there click on "Add a Layer". You will have to pick "Custom layers" for the source then you can see "requests-library" layer. ![add-layer](https://github.com/brdmyldz/daily-quote-sender/blob/main/images/add-layer.png?raw=true)
+30. Don't forget to click "Deploy" in your AWS Lambda function after all these changes.
+31. Now the only thing left is setting a scheduler to call our Lambda function daily. For that we will use AWS EventBridge. Go to AWS EventBridge and click on "EventBridge Schedule". After that press on "Create Schedule".
+32. Name your schedule "daily_quote_sender". Click "Recurring Schedule". You will have to enter your preferred cron-based expression. Simply google "cron expression generator" and set your settings according to your preference. Set "flexible time window" "Off". Set your "Timezone". ![schedule-settings](https://github.com/brdmyldz/daily-quote-sender/blob/main/images/schedule-settings.png?raw=true)
+33. When you come to "Select Target" page, select AWS Lambda and find your fucnction name and select it. You can set other settings if you would like.
+34. Lastly, go to your Webhooks settings on Meta Dashboard and unsubscribe from "messages" as we don't want Meta to send our endpoint anymore requests.
+35. We are done! Happy coding :)
 ## Future Improvement Ideas
 
 * get_long_lived_access_token.py, get_page_Acess_token.py, get_page_id.py can be put in one file to make setup process simplier.
+* I found out that there is no video on Youtube showing how to setup Messaging API for Instagram. In my free time I want to prepare a video tutorial for this project and upload it to Youtube. 
 ## References
+
+* [Quotable](https://github.com/lukePeavey/quotable) on Github takes all the credit for the quotes and well set APIs.
+
+* [@justinstolpe](https://www.youtube.com/@justinstolpe) on Youtube was a good resource for this project.
+Buy Me A Coffee
+18. Now that we verify our endpoint go back to our AWS Lambda function. Copy everything from aws_lambda/api_handler_meta_dev/lambda_function.py and paste it there and click "Deploy". Now we are ready to receive requests from Meta.![paste-code](https://github.com/brdmyldz/daily-quote-sender/blob/main/images/paste-code.png?raw=true), 2 of 2 found for 'api_handler', at 26:105
