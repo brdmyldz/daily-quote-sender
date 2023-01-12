@@ -1,6 +1,6 @@
 # Send Daily Quotes over Instagram Messages
 
-This script uses [Meta Developer APIs](https://developers.facebook.com) to send daily quotes from user's Instagram account to receipient's Instagram account. The quotes are generated through [Quotable APIs](https://github.com/lukePeavey/quotable). The script is invoked daily using [AWS Lambda](https://aws.amazon.com/lambda), [AWS CloudWatch](https://aws.amazon.com/cloudwatch) and [AWS EventBridge](https://aws.amazon.com/eventbridge). Lastly, [AWS API Gateway](https://aws.amazon.com/api-gateway) used during setup.
+This script uses [Meta Developer APIs](https://developers.facebook.com) to send daily quotes from user's Instagram account to receipient's Instagram account. The quotes are generated through [Quotable APIs](https://github.com/lukePeavey/quotable). The script is invoked daily using [AWS Lambda](https://aws.amazon.com/lambda) and [AWS EventBridge](https://aws.amazon.com/eventbridge). Lastly, [AWS API Gateway](https://aws.amazon.com/api-gateway) and [AWS CloudWatch](https://aws.amazon.com/cloudwatch) used during setup.
 ## Shortcuts
 
 - [Requirements](#requirements)
@@ -19,7 +19,7 @@ This script uses [Meta Developer APIs](https://developers.facebook.com) to send 
 Let's start! I'm assuming you already set your instagram account to professional, connected your Facebook Page to your instagram account, and cloned the repo in to your local device.
 
 1. Open your Meta Developer Account and create a new app. Make sure the app type is "None". ![select-type](https://github.com/brdmyldz/daily-quote-sender/blob/main/images/select-type.png?raw=true)
-2. We are going to add the recipient's Instagram account as "Instagram Tester" to our app. First we need to go to Settings->Basic and add a new platform(at the very bottom). You can select "Website" as the platform. If you have a website you can paste the URL of your website here. If you don't you can just paste your github profile URL.
+2. We are going to add the recipient's Instagram account as "Instagram Tester" to our app. In Meta, to be able to message someone, you need advance "instagram_manage_messages" permission. Advance permission require your app to be reviewed by Meta and it can be problematic for smaller projects. Thus, we will go with our basic permission which only let us to message people that has a role in our app.  First we need to go to Settings->Basic and add a new platform(at the very bottom). You can select "Website" as the platform. If you have a website you can paste the URL of your website here. If you don't you can just paste your github profile URL.
 3. Go to the dashboard and click "Set up" on "Instagram Basic Display". ![Set up Instagram Basic Display](https://scontent-sea1-1.xx.fbcdn.net/v/t39.2365-6/116839963_305560353979471_93042950445637590_n.png?_nc_cat=100&ccb=1-7&_nc_sid=ad8a9d&_nc_ohc=IC2XE3yB7LMAX97bfs0&_nc_ht=scontent-sea1-1.xx&oh=00_AfC8rUzSrv-IhhUNYwWC9qLYVsqhyXWHhOAW6DWw0PBfnQ&oe=63C170A7)
 4. Go to Instagram Basic Display-> Basic Display and then click "Create New App".
 5. Now, if you go to App Roles->Roles, you will see a new section appeared and it's called "Instagram Testers". Go ahead an add your recipient as an Instagram Tester. They will need to accept your invitation.
