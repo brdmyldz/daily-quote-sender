@@ -59,7 +59,8 @@ Let's start! I'm assuming you already set your instagram account to professional
 ## Future Improvement Ideas
 
 * get_long_lived_access_token.py, get_page_Acess_token.py, get_page_id.py can be put in one file to make setup process simplier.
-* I found out that there is no video on Youtube showing how to setup Messaging API for Instagram. In my free time I want to prepare a video tutorial for this project and upload it to Youtube. 
+* I found out that there is no video on Youtube showing how to setup Messaging API for Instagram. In my free time I want to prepare a video tutorial for this project and upload it to Youtube.
+* Exponential Backoff can be implemented for Quotable API requests.
 ## References
 
 * [Quotable](https://github.com/lukePeavey/quotable) on Github takes all the credit for the quotes and well set APIs.
