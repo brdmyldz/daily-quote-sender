@@ -5,13 +5,13 @@ def get_credentials():
     creds = dict()
 
     # FILL BELOW VALUES WITH YOUR CREDENTIALS
-    creds["access_token"] = ""
-    creds["app_id"] = ""
-    creds["app_secret"] = ""
-    creds["page_id"] = ""
-    creds["page_access_token"] = ""
-    creds["recipient_instagram_account_id"] = ""
-    creds["graph_version"] = "v15.0" #Change this if API versions updates
+    creds["access_token"] = "" # Update with access token
+    creds["app_id"] = "" # Update with access id
+    creds["app_secret"] = "" # Update with app secret
+    creds["page_id"] = "" # Update with  page id
+    creds["page_access_token"] = "" # Update with page access token
+    creds["recipient_instagram_account_id"] = "" # Update with your recipients instagram account id
+    creds["graph_version"] = "v15.0" # Change this if API versions updates
 
     creds["graph_domain"] = "https://graph.facebook.com/"
     creds["endpoint_base"] =  creds["graph_domain"] + creds["graph_version"] + "/"
