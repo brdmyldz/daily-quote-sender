@@ -15,9 +15,10 @@ def get_credentials():
         "recipient_instagram_account_id"
     ] = ""  # Update with your recipients instagram account id
     creds["graph_version"] = "v15.0"  # Change this if API versions updates
-
     creds["graph_domain"] = "https://graph.facebook.com/"
-    creds["endpoint_base"] = creds["graph_domain"] + creds["graph_version"] + "/"
+    creds["endpoint_base"] = (
+        creds["graph_domain"] + creds["graph_version"] + "/"
+    )
     creds["debug"] = "no"
 
     return creds
